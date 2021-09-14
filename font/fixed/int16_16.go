@@ -7,6 +7,8 @@ package fixed
 import (
 	"fmt"
 	"strconv"
+
+	"golang.org/x/image/math/fixed"
 )
 
 // Int16_16 is a signed 16.16 fixed-point number.
@@ -31,6 +33,7 @@ func ParseInt16_16(s string) (Int16_16, error) {
 	return Int16_16(int32(f * (1 << 16))), nil
 }
 
+// Float64 converts the 16.16 fixed-point number to a floating point one.
 func (x Int16_16) Float64() float64 {
 	v := int32(x)
 	return float64(v) / (1 << 16)
@@ -51,4 +54,10 @@ func (x Int16_16) String() string {
 		return fmt.Sprintf("-%d:%02d", int32(xx>>shift), int32(xx&mask))
 	}
 	return "-32768:00" // The minimum value is -(1<<(16-1)).
+}
+
+// ToInt26_6 converts the 16.16 fixed-point number to a 26.6 one.
+func (x Int16_16) ToInt26_6() fixed.Int26_6 {
+	f := x.Float64()
+	return fixed.Int26_6(f * (1 << 6))
 }
