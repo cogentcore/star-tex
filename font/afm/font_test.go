@@ -5,34 +5,66 @@
 package afm
 
 import (
+	"image"
 	"math"
 	"os"
 	"testing"
 
-	"star-tex.org/x/tex/font/fixed"
+	"golang.org/x/image/font"
 	"star-tex.org/x/tex/kpath"
 )
 
-func TestParseCMR10(t *testing.T) {
+func TestParseCM(t *testing.T) {
 	ktx := kpath.New()
-	name, err := ktx.Find("cmr10.afm")
-	if err != nil {
-		t.Fatalf("could not find cmr10.afm file: %+v", err)
-	}
+	for _, tc := range []struct {
+		name string
+		want font.Metrics
+	}{
+		{
+			"cmr10.afm",
+			font.Metrics{
+				Height:     64000,
+				Ascent:     44416,
+				Descent:    12416,
+				XHeight:    27584,
+				CapHeight:  43712,
+				CaretSlope: image.Point{X: 0, Y: 1},
+			},
+		},
+		{
+			"cmitt10.afm",
+			font.Metrics{
+				Height:     59456,
+				Ascent:     39104,
+				Descent:    14208,
+				XHeight:    27968,
+				CapHeight:  39104,
+				CaretSlope: image.Point{X: 250069, Y: 1000000},
+			},
+		},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			name, err := ktx.Find(tc.name)
+			if err != nil {
+				t.Fatalf("could not find %q file: %+v", tc.name, err)
+			}
 
-	f, err := ktx.Open(name)
-	if err != nil {
-		t.Fatalf("could not open afm: %+v", err)
-	}
-	defer f.Close()
+			f, err := ktx.Open(name)
+			if err != nil {
+				t.Fatalf("could not open afm: %+v", err)
+			}
+			defer f.Close()
 
-	fnt, err := Parse(f)
-	if err != nil {
-		t.Fatalf("could not parse afm: %+v", err)
-	}
+			fnt, err := Parse(f)
+			if err != nil {
+				t.Fatalf("could not parse afm: %+v", err)
+			}
 
-	if fnt.ascender != fixed.I16_16(694) {
-		t.Fatalf("invalid ascender: %v", fnt.ascender)
+			got := fnt.Metrics()
+			if got != tc.want {
+				t.Fatalf("invalid metrics:\ngot= %d\nwant=%d", got, tc.want)
+			}
+		})
 	}
 }
 

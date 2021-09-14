@@ -6,8 +6,11 @@ package afm
 
 import (
 	"fmt"
+	"image"
 	"io"
+	"math"
 
+	"golang.org/x/image/font"
 	"star-tex.org/x/tex/font/fixed"
 )
 
@@ -147,4 +150,31 @@ func Parse(r io.Reader) (Font, error) {
 		return fnt, fmt.Errorf("could not parse AFM file: %w", err)
 	}
 	return fnt, nil
+}
+
+// Metrics returns the metrics for this Face.
+func (f *Font) Metrics() font.Metrics {
+	met := font.Metrics{
+		Height:     (f.bbox.ury - f.bbox.lly).ToInt26_6(),
+		Ascent:     f.ascender.ToInt26_6(),
+		Descent:    -f.descender.ToInt26_6(),
+		XHeight:    f.xHeight.ToInt26_6(),
+		CapHeight:  f.capHeight.ToInt26_6(),
+		CaretSlope: slopeFrom(f.direction[0].italicAngle.Float64()), // FIXME(sbinet): check direction.
+	}
+	return met
+}
+
+func slopeFrom(angle float64) image.Point {
+	if angle == 0 {
+		return image.Pt(0, 1)
+	}
+	const (
+		factor  = 1e6
+		deg2rad = math.Pi / 180.0
+	)
+	radians := angle*deg2rad + 0.5*math.Pi
+	y, x := math.Sincos(radians)
+
+	return image.Pt(int(factor*x/y), factor)
 }
