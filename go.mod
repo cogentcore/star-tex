@@ -11,4 +11,9 @@ retract (
 	v0.1.0
 )
 
-require golang.org/x/image v0.20.0
+require (
+	golang.org/x/image v0.25.0
+	modernc.org/knuth v0.5.4
+)
+
+require modernc.org/token v1.1.0 // indirect

@@ -77,7 +77,7 @@ func xmain(stdout, stderr io.Writer, args []string) int {
 	}
 	defer o.Close()
 
-	err = process(o, f, os.Stderr)
+	err = process(o, f, os.Stdout, os.Stderr)
 	if err != nil {
 		msg.Printf("could not run star-tex: %+v", err)
 		return 1
@@ -92,8 +92,8 @@ func xmain(stdout, stderr io.Writer, args []string) int {
 	return 0
 }
 
-func process(o io.Writer, f io.Reader, stderr io.Writer) error {
-	ctx := tex.NewEngine(stderr, os.Stdin)
+func process(o io.Writer, f io.Reader, stdout, stderr io.Writer) error {
+	ctx := tex.NewEngine(stdout, stderr, os.Stdin)
 	ctx.Jobname = jobNameFrom(o)
 	return ctx.Process(o, f)
 }

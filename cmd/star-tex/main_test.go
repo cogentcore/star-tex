@@ -10,19 +10,9 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
-	"time"
-
-	"star-tex.org/x/tex/internal/xtex"
 )
 
 func TestProcess(t *testing.T) {
-	xtex.TimeNow = func() time.Time {
-		return time.Date(1776, time.July, 4, 12, 0, 0, 0, time.UTC)
-	}
-	defer func() {
-		xtex.TimeNow = time.Now
-	}()
-
 	for _, name := range []string{
 		"../../testdata/hello.tex",
 	} {
@@ -35,10 +25,13 @@ func TestProcess(t *testing.T) {
 			oname := strings.Replace(name, ".tex", ".dvi", 1)
 			_ = os.RemoveAll(oname)
 
-			o := new(bytes.Buffer)
-			msg := new(bytes.Buffer)
+			var (
+				o      = new(bytes.Buffer)
+				stdout = new(bytes.Buffer)
+				stderr = new(bytes.Buffer)
+			)
 
-			err = process(o, r, msg)
+			err = process(o, r, stdout, stderr)
 			if err != nil {
 				t.Fatalf("could not process TeX document: %+v", err)
 			}
@@ -50,7 +43,7 @@ func TestProcess(t *testing.T) {
 
 			if got, want := o.Bytes(), want; !bytes.Equal(got, want) {
 				_ = os.WriteFile(oname, got, 0644)
-				t.Fatalf("DVI files compare different")
+				t.Fatalf("DVI files compare different.\nstdout:\n%s\nstderr:\n%s", stdout, stderr)
 			}
 		})
 	}

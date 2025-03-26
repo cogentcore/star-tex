@@ -5,9 +5,11 @@
 package tex
 
 import (
+	"fmt"
 	"io"
+	"strings"
 
-	"star-tex.org/x/tex/internal/xtex"
+	"modernc.org/knuth/tex"
 )
 
 const (
@@ -16,21 +18,27 @@ const (
 
 // Engine is a TeX engine.
 type Engine struct {
-	stdin  io.ReadCloser
-	stdout io.WriteCloser
+	stdin  io.Reader
+	stdout io.Writer
+	stderr io.Writer
 
 	// Jobname used for TeX output.
 	// Default is "output".
 	Jobname string
+
+	// Stdlog collects TeX logging messages.
+	Stdlog io.Writer
 }
 
 // NewEngine creates a new TeX engine connected to the provided
 // stdin and stdout file descriptors.
-func NewEngine(stdout io.Writer, stdin io.Reader) *Engine {
+func NewEngine(stdout, stderr io.Writer, stdin io.Reader) *Engine {
 	return &Engine{
-		stdout:  writerCloser(stdout),
-		stdin:   io.NopCloser(stdin),
+		stdin:   stdin,
+		stdout:  stdout,
+		stderr:  stderr,
 		Jobname: defaultJobname,
+		Stdlog:  io.Discard,
 	}
 }
 
@@ -41,9 +49,37 @@ func (engine *Engine) Process(w io.Writer, r io.Reader) error {
 	if jobname == "" {
 		jobname = defaultJobname
 	}
+	if jobname == "plain" {
+		jobname = "plain_"
+	}
 
-	ctx := xtex.New(engine.stdout, engine.stdin)
-	return ctx.Process(writerCloser(w), r, jobname)
+	var (
+		stdin  io.Reader = strings.NewReader(`\input plain \input ` + jobname)
+		stdout io.Writer
+		stderr io.Writer
+	)
+
+	if engine.stdin != nil {
+		stdin = io.MultiReader(stdin, engine.stdin)
+	}
+	if engine.stdout != nil {
+		stdout = engine.stdout
+	}
+	if engine.stderr != nil {
+		stderr = engine.stderr
+	}
+
+	err := tex.Main(
+		stdin, stdout, stderr,
+		tex.WithDVIFile(w),
+		tex.WithInputFile(jobname+".tex", r),
+		tex.WithLogFile(engine.Stdlog),
+	)
+	if err != nil {
+		return fmt.Errorf("could not run knuth·main: %w", err)
+	}
+
+	return nil
 }
 
 func writerCloser(w io.Writer) io.WriteCloser {
