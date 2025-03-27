@@ -92,8 +92,8 @@ func interp(ctx kpath.Context, stdout io.Writer, oname string, r io.Reader) erro
 		return fmt.Errorf("could not interpret DVI program: %w", err)
 	}
 
-	if renderer.err != nil {
-		return fmt.Errorf("could not render DVI program: %w", renderer.err)
+	if renderer.Err() != nil {
+		return fmt.Errorf("could not render DVI program: %w", renderer.Err())
 	}
 
 	return nil

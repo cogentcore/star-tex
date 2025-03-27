@@ -12,8 +12,12 @@ retract (
 )
 
 require (
+	git.sr.ht/~sbinet/cmpimg v0.1.0
 	golang.org/x/image v0.25.0
 	modernc.org/knuth v0.5.4
 )
 
-require modernc.org/token v1.1.0 // indirect
+require (
+	modernc.org/token v1.1.0 // indirect
+	rsc.io/pdf v0.1.1 // indirect
+)
