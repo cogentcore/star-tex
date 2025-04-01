@@ -93,7 +93,9 @@ func xmain(stdout, stderr io.Writer, args []string) int {
 }
 
 func process(o io.Writer, f io.Reader, stdout, stderr io.Writer) error {
-	ctx := tex.NewEngine(stdout, stderr, os.Stdin)
+	ctx := tex.New()
+	ctx.Stdout = stdout
+	ctx.Stderr = stderr
 	ctx.Jobname = jobNameFrom(o)
 	return ctx.Process(o, f)
 }

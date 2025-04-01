@@ -18,28 +18,37 @@ const (
 
 // Engine is a TeX engine.
 type Engine struct {
-	stdin  io.Reader
-	stdout io.Writer
-	stderr io.Writer
+	// Stdin specifies the TeX engine's standard input.
+	//
+	// If Stdin is nil, the engine reads from the null device (os.DevNull).
+	Stdin io.Reader
+
+	// Stdout and Stderr specify the TeX engine's standard output and error.
+	//
+	// If either is nil, Process connects the corresponding file descriptor
+	// to the null device (os.DevNull).
+	Stdout io.Writer
+	Stderr io.Writer
 
 	// Jobname used for TeX output.
 	// Default is "output".
 	Jobname string
 
 	// Stdlog collects TeX logging messages.
+	//
+	// If Stdlog is nil, Process connects Stdlog to the null device (os.DevNull).
 	Stdlog io.Writer
 }
 
-// NewEngine creates a new TeX engine connected to the provided
-// stdin and stdout file descriptors.
-func NewEngine(stdout, stderr io.Writer, stdin io.Reader) *Engine {
-	return &Engine{
-		stdin:   stdin,
-		stdout:  stdout,
-		stderr:  stderr,
-		Jobname: defaultJobname,
-		Stdlog:  io.Discard,
-	}
+// New creates a new TeX engine.
+func New() *Engine {
+	return &Engine{Jobname: defaultJobname}
+}
+
+// Run reads the provided TeX document from r and compiles it to
+// the provided writer.
+func Run(w io.Writer, r io.Reader) error {
+	return New().Process(w, r)
 }
 
 // Process reads the provided TeX document and
@@ -57,23 +66,27 @@ func (engine *Engine) Process(w io.Writer, r io.Reader) error {
 		stdin  io.Reader = strings.NewReader(`\input plain \input ` + jobname)
 		stdout io.Writer
 		stderr io.Writer
+		stdlog = io.Discard
 	)
 
-	if engine.stdin != nil {
-		stdin = io.MultiReader(stdin, engine.stdin)
+	if engine.Stdin != nil {
+		stdin = io.MultiReader(stdin, engine.Stdin)
 	}
-	if engine.stdout != nil {
-		stdout = engine.stdout
+	if engine.Stdout != nil {
+		stdout = engine.Stdout
 	}
-	if engine.stderr != nil {
-		stderr = engine.stderr
+	if engine.Stderr != nil {
+		stderr = engine.Stderr
+	}
+	if engine.Stdlog != nil {
+		stdlog = engine.Stdlog
 	}
 
 	err := tex.Main(
 		stdin, stdout, stderr,
 		tex.WithDVIFile(w),
 		tex.WithInputFile(jobname+".tex", r),
-		tex.WithLogFile(engine.Stdlog),
+		tex.WithLogFile(stdlog),
 	)
 	if err != nil {
 		return fmt.Errorf("could not run knuth·main: %w", err)
@@ -81,16 +94,3 @@ func (engine *Engine) Process(w io.Writer, r io.Reader) error {
 
 	return nil
 }
-
-func writerCloser(w io.Writer) io.WriteCloser {
-	if w, ok := w.(io.WriteCloser); ok {
-		return w
-	}
-	return nopWriteCloser{w}
-}
-
-type nopWriteCloser struct {
-	io.Writer
-}
-
-func (nopWriteCloser) Close() error { return nil }
