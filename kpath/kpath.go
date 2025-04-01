@@ -18,6 +18,7 @@ import (
 	"strings"
 	"sync"
 
+	"git.sr.ht/~sbinet/overlayfs"
 	"star-tex.org/x/tex/internal/tds"
 )
 
@@ -90,6 +91,7 @@ func newFromDB(root fs.FS, r io.Reader) (Context, error) {
 // provided filesystem, and otherwise walks the whole fs.
 func NewFromFS(fsys fs.FS) (Context, error) {
 	var ctx Context
+	fsys = overlayfs.From(tds.FS, fsys)
 	ctx.init(fsys)
 
 	if _, err := fs.Stat(fsys, "ls-R"); err == nil {

@@ -13,6 +13,7 @@ retract (
 
 require (
 	git.sr.ht/~sbinet/cmpimg v0.1.0
+	git.sr.ht/~sbinet/overlayfs v0.1.1
 	golang.org/x/image v0.25.0
 	modernc.org/knuth v0.5.4
 )
