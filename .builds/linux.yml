@@ -23,6 +23,10 @@ tasks:
  - check_gofmt: |
      cd star-tex
      test -z "$(gofmt -s -l .)"
+ - check_lint: |
+     cd star-tex
+     go install honnef.co/go/tools/cmd/staticcheck@latest
+     staticcheck ./...
  - check_sign_off: |
      set +x -e
      cd star-tex
