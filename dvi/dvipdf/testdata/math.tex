@@ -1,0 +1,27 @@
+% \footline={} %% disable page number.
+\def\frac#1#2{{\begingroup#1\endgroup\over{#2}}}
+
+$$y = \sum_{i=0}^{100} f(x_i)$$
+$$y = \int_{i=0}^{100} f(x_i)$$
+$$y = \prod_i^j \coprod \int \oint \bigcap \bigcup$$
+$$y = \bigsqcup \bigvee \bigwedge \bigodot \bigotimes \bigoplus \biguplus$$
+$$y = \left( \sum_{i=0}^{100} f(x_i) \right)$$
+
+$$\left\{\vbox to 27pt{}\left\{\vbox to 24pt{}\left\{\vbox to 21pt{} \Biggl\{\biggl\{\Bigl\{\bigl\{\{{\scriptstyle\{{\scriptscriptstyle\{\times\}}\}}\}\bigr\}\Bigr\}\biggr\}\Biggr\}\right\}\right\}\right\}$$
+
+%% FIXME(sbinet) '\Biggl(' is encoded as rune(32) (a " ").
+%%  but go-pdf/fpdf doesn't properly generate a cmap (or something) for Type1 fonts.
+%%  so that '\Biggl(' just appears as an empty space in the formula.
+$$\left(\vbox to 27pt{}\left(\vbox to 24pt{}\left(\vbox to 21pt{}\Biggl(\biggl(\Bigl(\bigl(({\scriptstyle({\scriptscriptstyle(\times)})})\bigr)\Bigr)\biggr)\Biggr)\right)\right)\right)$$
+
+$$\left[\vbox to 27pt{}\left[\vbox to 24pt{}\left[\vbox to 21pt{}\Biggl[\biggl[\Bigl[\bigl[{\scriptstyle[{\scriptscriptstyle[\times]}]}]\bigr]\Bigr]\biggr]\Biggr]\right]\right]\right]$$
+
+$$\sqrt{1+\sqrt{1+\sqrt{1+\sqrt{1+\sqrt{1+\sqrt{1+\sqrt{1+x}}}}}}}$$
+$$a = \left( \frac{\overline{f}(x^2)}{\prod_i^j \sum_i^j f_i(x_j^2)} \right)$$
+$$a = \left[ \frac{\overline{f}(x^2)}{\prod_i^j \sum_i^j f_i(x_j^2)} \right]$$
+$$y = \partial x$$
+
+Inline math: $y = \partial x$.
+%Same, but in non-math mode: y = \partial x. %% not supported in Plain-TeX.
+
+\bye
