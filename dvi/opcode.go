@@ -4,7 +4,9 @@
 
 package dvi
 
-import "fmt"
+import (
+	"fmt"
+)
 
 const (
 	dviEOF = 223
