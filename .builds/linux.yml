@@ -16,6 +16,10 @@ tasks:
  - test_linux: |
      cd star-tex
      go test -race ./...
+ - test_wasm: |
+     cd star-tex
+     GOOS=wasip1 GOARCH=wasm \
+        go build ./...
  - test_windows: |
      cd star-tex
      GOOS=windows \
