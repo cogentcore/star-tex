@@ -11,6 +11,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"path/filepath"
 
 	"star-tex.org/x/tex/dvi"
 	"star-tex.org/x/tex/kpath"
@@ -67,7 +68,11 @@ func xmain(stdout io.Writer, oname, fname, texmf string) {
 }
 
 func interp(ctx kpath.Context, stdout io.Writer, oname string, r io.Reader) error {
-	renderer := newRenderer(ctx, oname)
+	renderer, err := newRenderer(ctx, oname)
+	if err != nil {
+		return fmt.Errorf("could not create renderer for %q: %w", oname, err)
+	}
+
 	vm := dvi.NewMachine(
 		dvi.WithContext(ctx),
 		dvi.WithLogOutput(stdout),
@@ -92,9 +97,29 @@ func interp(ctx kpath.Context, stdout io.Writer, oname string, r io.Reader) erro
 		return fmt.Errorf("could not interpret DVI program: %w", err)
 	}
 
-	if renderer.Err() != nil {
-		return fmt.Errorf("could not render DVI program: %w", renderer.Err())
+	err = renderer.Close()
+	if err != nil {
+		return fmt.Errorf("could not render DVI program: %w", err)
 	}
 
 	return nil
+}
+
+type renderer interface {
+	dvi.Renderer
+	Close() error
+}
+
+func newRenderer(ctx kpath.Context, oname string) (renderer, error) {
+	ext := filepath.Ext(oname)
+	switch ext {
+	case ".png":
+		return newPNG(ctx, oname), nil
+
+	case ".pdf":
+		return newPDF(ctx, oname)
+
+	default:
+		return nil, fmt.Errorf("unsupported output renderer format %q", ext)
+	}
 }

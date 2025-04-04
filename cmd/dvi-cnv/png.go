@@ -26,7 +26,7 @@ type pngRenderer struct {
 	err  error
 }
 
-func newRenderer(ctx kpath.Context, name string) *pngRenderer {
+func newPNG(ctx kpath.Context, name string) *pngRenderer {
 	return &pngRenderer{
 		name: name,
 		dvi:  dvimg.New(ctx),
@@ -47,6 +47,8 @@ func (pr *pngRenderer) Err() error {
 	}
 	return pr.err
 }
+
+func (pr *pngRenderer) Close() error { return pr.Err() }
 
 func (pr *pngRenderer) Init(pre *dvi.CmdPre, post *dvi.CmdPost) {
 	pr.dvi.Init(pre, post)
