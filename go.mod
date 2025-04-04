@@ -18,6 +18,9 @@ require (
 )
 
 require (
+	github.com/tetratelabs/wazero v1.9.0 // indirect
 	modernc.org/token v1.1.0 // indirect
 	rsc.io/pdf v0.1.1 // indirect
 )
+
+tool github.com/tetratelabs/wazero/cmd/wazero

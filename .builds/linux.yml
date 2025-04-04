@@ -19,7 +19,7 @@ tasks:
  - test_wasm: |
      cd star-tex
      GOOS=wasip1 GOARCH=wasm \
-        go build ./...
+        go test -exec="$PWD/ci/wasm-run" ./...
  - test_windows: |
      cd star-tex
      GOOS=windows \
