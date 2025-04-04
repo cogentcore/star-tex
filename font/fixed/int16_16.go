@@ -12,7 +12,7 @@ import (
 // Int16_16 is a signed 16.16 fixed-point number.
 //
 // The integer part ranges from -32768 to 32767, inclusive. The
-// fractional part has 20 bits of precision.
+// fractional part has 16 bits of precision.
 type Int16_16 uint32
 
 // I16_16 returns the integer value i as an Int16_16.
