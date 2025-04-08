@@ -109,9 +109,12 @@ func TestRenderer(t *testing.T) {
 			}
 
 			if !ok {
+				// store DVI.
+				dviname := strings.Replace(name, ".tex", ".dvi", 1)
+				_ = os.WriteFile(dviname, buf.Bytes(), 0644)
 				t.Fatalf("invalid images for %q", name)
 			}
-
+			_ = os.Remove(gotname)
 		})
 	}
 }
