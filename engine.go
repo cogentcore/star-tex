@@ -5,6 +5,7 @@
 package tex
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"strings"
@@ -64,33 +65,40 @@ func (engine *Engine) Process(w io.Writer, r io.Reader) error {
 
 	var (
 		stdin  io.Reader = strings.NewReader(`\input plain \input ` + jobname)
-		stdout io.Writer
-		stderr io.Writer
-		stdlog = io.Discard
+		stdout           = new(bytes.Buffer)
+		stderr           = new(bytes.Buffer)
+		stdlog           = io.Discard
 	)
 
 	if engine.Stdin != nil {
 		stdin = io.MultiReader(stdin, engine.Stdin)
-	}
-	if engine.Stdout != nil {
-		stdout = engine.Stdout
-	}
-	if engine.Stderr != nil {
-		stderr = engine.Stderr
 	}
 	if engine.Stdlog != nil {
 		stdlog = engine.Stdlog
 	}
 
 	err := tex.Main(
-		stdin, stdout, stderr,
+		stdin,
+		wtee(stdout, engine.Stdout),
+		wtee(stderr, engine.Stderr),
 		tex.WithDVIFile(w),
 		tex.WithInputFile(jobname+".tex", r),
 		tex.WithLogFile(stdlog),
 	)
 	if err != nil {
-		return fmt.Errorf("could not run knuth·main: %w", err)
+		return fmt.Errorf("could not run knuth·main:\nstdout:\n%s\nstderr:\n%s\nerror: %w", stdout, stderr, err)
 	}
 
 	return nil
+}
+
+func wtee(ws ...io.Writer) io.Writer {
+	vs := make([]io.Writer, 0, len(ws))
+	for _, w := range ws {
+		if w == nil {
+			continue
+		}
+		vs = append(vs, w)
+	}
+	return io.MultiWriter(vs...)
 }
