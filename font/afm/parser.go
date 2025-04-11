@@ -193,7 +193,7 @@ func (p *parser) parseAxis(fnt *Font) error {
 }
 
 func (p *parser) parseCharMetrics(fnt *Font, n int) error {
-	fnt.charMetrics = make([]charMetric, 0, n)
+	fnt.charMetrics = make([]CharMetric, 0, n)
 	for p.scan() {
 		switch p.toks[0] {
 		case "EndCharMetrics":
@@ -220,7 +220,7 @@ func (p *parser) parseCharMetrics(fnt *Font, n int) error {
 }
 
 func (p *parser) parseCharMetric(fnt *Font) error {
-	ch := charMetric{c: -1}
+	ch := CharMetric{c: -1}
 	for _, v := range strings.Split(p.s.Text(), ";") {
 		v = strings.TrimSpace(v)
 		if v == "" {

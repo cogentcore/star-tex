@@ -38,7 +38,8 @@ type charWidth struct {
 	y fixed.Int16_16 // y component of the width vector of a font's program characters.
 }
 
-type charMetric struct {
+// CharMetric represents an individual character's metric.
+type CharMetric struct {
 	// c is the decimal value of default character code.
 	// c is -1 if the character is not encoded.
 	c int
@@ -63,6 +64,13 @@ type charMetric struct {
 	// ligs is a ligature sequence.
 	ligs []lig
 }
+
+// Code returns the decimal value of this character, or -1 if this character
+// is not encoded.
+func (cm *CharMetric) Code() int { return cm.c }
+
+// Name returns the PostScript name of this character.
+func (cm *CharMetric) Name() string { return cm.name }
 
 type bbox struct {
 	llx, lly fixed.Int16_16
@@ -126,26 +134,36 @@ type Font struct {
 	//	weightVector         []fixed.Int16_16
 
 	direction   [3]direction
-	charMetrics []charMetric
+	charMetrics []CharMetric
 	composites  []composite
 
 	tkerns []trackKern
 	pkerns []kernPair
 }
 
-func newFont() Font {
-	return Font{
+// EncodingScheme returns the font encoding scheme.
+// EncodingScheme returns "FontSpecific" for special font programs.
+func (fnt *Font) EncodingScheme() string {
+	return fnt.encodingScheme
+}
+
+func (fnt *Font) CharMetrics() []CharMetric {
+	return fnt.charMetrics
+}
+
+func newFont() *Font {
+	return &Font{
 		isBaseFont: true,
 	}
 }
 
 // Parse parses an AFM file.
-func Parse(r io.Reader) (Font, error) {
+func Parse(r io.Reader) (*Font, error) {
 	var (
 		fnt = newFont()
 		p   = newParser(r)
 	)
-	err := p.parse(&fnt)
+	err := p.parse(fnt)
 	if err != nil {
 		return fnt, fmt.Errorf("could not parse AFM file: %w", err)
 	}
