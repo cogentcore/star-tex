@@ -6,6 +6,7 @@
 package dvipdf // import "star-tex.org/x/tex/dvi/dvipdf"
 
 import (
+	"bytes"
 	_ "embed"
 	"fmt"
 	"image/color"
@@ -18,6 +19,7 @@ import (
 
 	pdf "codeberg.org/go-pdf/fpdf"
 	"star-tex.org/x/tex/dvi"
+	"star-tex.org/x/tex/font/afm"
 	"star-tex.org/x/tex/font/fixed"
 	"star-tex.org/x/tex/kpath"
 )
@@ -311,8 +313,45 @@ func (pr *Renderer) font(fnt dvi.Font) {
 		return
 	}
 
+	var (
+		encoding []byte
+		metrics  *afm.Font
+	)
+	{
+		fnames, err := pr.ctx.FindAll(fnt.Name() + ".afm")
+		if err != nil {
+			pr.setErr(err)
+			return
+		}
+		fname := fnames[0]
+		f, err := pr.ctx.Open(fname)
+		if err != nil {
+			pr.setErr(err)
+			return
+		}
+		defer f.Close()
+
+		fnt, err := afm.Parse(f)
+		if err != nil {
+			pr.setErr(err)
+			return
+		}
+		metrics = fnt
+	}
+
+	switch metrics.EncodingScheme() {
+	case "FontSpecific":
+		buf := new(bytes.Buffer)
+		for _, ch := range metrics.CharMetrics() {
+			fmt.Fprintf(buf, "!%02X U+%04X %s\n", ch.Code(), ch.Code(), ch.Name())
+		}
+		encoding = buf.Bytes()
+	default:
+		encoding = codePageEncoding
+	}
+
 	pdfKey := pdfFontKey{font: fnt.Name(), embed: pr.embed}
-	zdata, jdata, err := getFont(pr.ctx, pdfKey, filepath.Base(fname), raw, codePageEncoding)
+	zdata, jdata, err := getFont(pr.ctx, pdfKey, filepath.Base(fname), raw, encoding)
 	if err != nil {
 		pr.setErr(err)
 		return
@@ -398,7 +437,7 @@ func makeFont(ctx kpath.Context, key pdfFontKey, name string, font, encoding []b
 		ext   = filepath.Ext(name)
 		base  = key.font
 		fname = filepath.Join(indir, base+ext)
-		cname = filepath.Join(indir, "cp1252.map")
+		cname = filepath.Join(indir, base+".map")
 	)
 
 	err = os.WriteFile(fname, font, 0644)
@@ -407,6 +446,11 @@ func makeFont(ctx kpath.Context, key pdfFontKey, name string, font, encoding []b
 	}
 
 	err = os.WriteFile(cname, encoding, 0644)
+	if err != nil {
+		return val, err
+	}
+
+	err = os.WriteFile(filepath.Join(indir, "cp1252.map"), codePageEncoding, 0644)
 	if err != nil {
 		return val, err
 	}
