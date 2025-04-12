@@ -10,6 +10,17 @@
 `star-tex` provides a `TeX` to `PDF` typesetter.
 
 ```
+$> star-tex -h
+Usage: star-tex [options] FILE.tex [FILE.pdf]
+
+ex:
+ $> star-tex ./testdata/hello.tex
+ $> star-tex ./testdata/hello.tex ./out.pdf
+
+options:
+  -texmf string
+    	path to TexMF root
+
 $> star-tex ./testdata/hello.tex out.pdf
 $> pdf out.pdf
 ```

@@ -12,6 +12,7 @@ import (
 	"testing"
 
 	"git.sr.ht/~sbinet/cmpimg"
+	"star-tex.org/x/tex/kpath"
 )
 
 func TestProcess(t *testing.T) {
@@ -31,9 +32,10 @@ func TestProcess(t *testing.T) {
 				o      = new(bytes.Buffer)
 				stdout = new(bytes.Buffer)
 				stderr = new(bytes.Buffer)
+				ktx    = kpath.New()
 			)
 
-			err = process(o, r, stdout, stderr)
+			err = process(ktx, o, r, stdout, stderr)
 			if err != nil {
 				t.Fatalf("could not process TeX document: %+v", err)
 			}

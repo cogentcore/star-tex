@@ -39,6 +39,8 @@ func main() {
 func xmain(stdout, stderr io.Writer, args []string) int {
 	msg := log.New(stderr, "star-tex: ", 0)
 
+	texmf := fset.String("texmf", "", "path to TexMF root")
+
 	fset.Usage = func() {
 		fmt.Fprint(stderr, usage)
 		fset.PrintDefaults()
@@ -59,6 +61,8 @@ func xmain(stdout, stderr io.Writer, args []string) int {
 		return 1
 	}
 
+	args = fset.Args()
+
 	f, err := os.Open(args[0])
 	if err != nil {
 		msg.Printf("could not open input TeX file: %+v", err)
@@ -78,7 +82,16 @@ func xmain(stdout, stderr io.Writer, args []string) int {
 	}
 	defer o.Close()
 
-	err = process(o, f, os.Stdout, os.Stderr)
+	ktx := kpath.New()
+	if *texmf != "" {
+		ktx, err = kpath.NewFromFS(os.DirFS(*texmf))
+		if err != nil {
+			msg.Printf("could not create kpath context: %+v", err)
+			return 1
+		}
+	}
+
+	err = process(ktx, o, f, os.Stdout, os.Stderr)
 	if err != nil {
 		msg.Printf("could not run star-tex: %+v", err)
 		return 1
@@ -93,6 +106,6 @@ func xmain(stdout, stderr io.Writer, args []string) int {
 	return 0
 }
 
-func process(o io.Writer, f io.Reader, stdout, stderr io.Writer) error {
-	return tex.ToPDF(kpath.New(), o, f)
+func process(ktx kpath.Context, o io.Writer, f io.Reader, stdout, stderr io.Writer) error {
+	return tex.ToPDF(ktx, o, f)
 }
