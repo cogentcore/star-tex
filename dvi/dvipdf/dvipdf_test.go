@@ -37,7 +37,7 @@ func TestRenderer(t *testing.T) {
 			)
 
 			buf := new(bytes.Buffer)
-			err = tex.Run(buf, src)
+			err = tex.ToDVI(buf, src)
 			if err != nil {
 				t.Fatalf(
 					"could not process TeX document: %+v",

@@ -17,6 +17,12 @@ const (
 	defaultJobname = "output"
 )
 
+// ToDVI reads the provided TeX document from r and compiles it to
+// the provided writer as a ToDVI document.
+func ToDVI(w io.Writer, r io.Reader) error {
+	return New().Process(w, r)
+}
+
 // Engine is a TeX engine.
 type Engine struct {
 	// Stdin specifies the TeX engine's standard input.
@@ -44,12 +50,6 @@ type Engine struct {
 // New creates a new TeX engine.
 func New() *Engine {
 	return &Engine{Jobname: defaultJobname}
-}
-
-// Run reads the provided TeX document from r and compiles it to
-// the provided writer.
-func Run(w io.Writer, r io.Reader) error {
-	return New().Process(w, r)
 }
 
 // Process reads the provided TeX document and
