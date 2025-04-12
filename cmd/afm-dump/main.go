@@ -13,6 +13,9 @@ import (
 )
 
 func main() {
+	log.SetFlags(0)
+	log.SetPrefix("afm-dump: ")
+
 	flag.Parse()
 
 	f, err := os.Open(flag.Arg(0))
