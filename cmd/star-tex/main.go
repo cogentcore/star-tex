@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Command star-tex compiles TeX documents.
+// Command star-tex compiles TeX documents to PDFs.
 package main // import "star-tex.org/x/tex/cmd/star-tex"
 
 import (
@@ -16,16 +16,17 @@ import (
 	"strings"
 
 	"star-tex.org/x/tex"
+	"star-tex.org/x/tex/kpath"
 )
 
 var (
 	fset = flag.NewFlagSet("star-tex", flag.ContinueOnError)
 
-	usage = `Usage: star-tex [options] FILE.tex [FILE.dvi]
+	usage = `Usage: star-tex [options] FILE.tex [FILE.pdf]
 
 ex:
  $> star-tex ./testdata/hello.tex
- $> star-tex ./testdata/hello.tex ./out.dvi
+ $> star-tex ./testdata/hello.tex ./out.pdf
 
 options:
 `
@@ -65,14 +66,14 @@ func xmain(stdout, stderr io.Writer, args []string) int {
 	}
 	defer f.Close()
 
-	oname := strings.Replace(filepath.Base(f.Name()), ".tex", ".dvi", 1)
+	oname := strings.Replace(filepath.Base(f.Name()), ".tex", ".pdf", 1)
 	if len(args) > 1 {
 		oname = args[1]
 	}
 
 	o, err := os.Create(oname)
 	if err != nil {
-		msg.Printf("could not open output DVI file: %+v", err)
+		msg.Printf("could not open output PDF file: %+v", err)
 		return 1
 	}
 	defer o.Close()
@@ -85,7 +86,7 @@ func xmain(stdout, stderr io.Writer, args []string) int {
 
 	err = o.Close()
 	if err != nil {
-		msg.Printf("could not close output DVI file: %+v", err)
+		msg.Printf("could not close output PDF file: %+v", err)
 		return 1
 	}
 
@@ -93,19 +94,5 @@ func xmain(stdout, stderr io.Writer, args []string) int {
 }
 
 func process(o io.Writer, f io.Reader, stdout, stderr io.Writer) error {
-	ctx := tex.New()
-	ctx.Stdout = stdout
-	ctx.Stderr = stderr
-	ctx.Jobname = jobNameFrom(o)
-	return ctx.Process(o, f)
-}
-
-func jobNameFrom(w io.Writer) (job string) {
-	o, ok := w.(interface{ Name() string })
-	if !ok {
-		return job
-	}
-	job = o.Name()
-	job = job[:len(job)-len(filepath.Ext(job))]
-	return job
+	return tex.ToPDF(kpath.New(), o, f)
 }

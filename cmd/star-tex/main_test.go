@@ -10,6 +10,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"git.sr.ht/~sbinet/cmpimg"
 )
 
 func TestProcess(t *testing.T) {
@@ -22,7 +24,7 @@ func TestProcess(t *testing.T) {
 				t.Fatalf("could not open TeX document: %+v", err)
 			}
 			defer r.Close()
-			oname := strings.Replace(name, ".tex", ".dvi", 1)
+			oname := strings.Replace(name, ".tex", ".pdf", 1)
 			_ = os.RemoveAll(oname)
 
 			var (
@@ -36,14 +38,19 @@ func TestProcess(t *testing.T) {
 				t.Fatalf("could not process TeX document: %+v", err)
 			}
 
-			want, err := os.ReadFile(strings.Replace(name, ".tex", "_golden.dvi", 1))
+			want, err := os.ReadFile(strings.Replace(name, ".tex", "_golden.pdf", 1))
 			if err != nil {
-				t.Fatalf("could not read reference DVI file: %+v", err)
+				t.Fatalf("could not read reference PDF file: %+v", err)
 			}
 
-			if got, want := o.Bytes(), want; !bytes.Equal(got, want) {
+			got := o.Bytes()
+			ok, err := cmpimg.Equal("pdf", got, want)
+			if err != nil {
+				t.Fatalf("could not compare PDFs: %+v", err)
+			}
+			if !ok {
 				_ = os.WriteFile(oname, got, 0644)
-				t.Fatalf("DVI files compare different.\nstdout:\n%s\nstderr:\n%s", stdout, stderr)
+				t.Fatalf("PDF files compare different.")
 			}
 		})
 	}
