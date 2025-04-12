@@ -7,11 +7,10 @@
 
 ## cmd/star-tex
 
-`star-tex` provides a `TeX` to `DVI` typesetter.
+`star-tex` provides a `TeX` to `PDF` typesetter.
 
 ```
-$> star-tex ./testdata/hello.tex out.div
-$> dvipdf out.dvi
+$> star-tex ./testdata/hello.tex out.pdf
 $> pdf out.pdf
 ```
 
@@ -30,6 +29,9 @@ Usage of dvi-cnv:
 
 $> dvi-cnv -o foo.png ./testdata/hello_golden.dvi
 $> open ./foo_1.png
+
+$> dvi-cnv -o foo.pdf ./testdata/hello_golden.dvi
+$> open ./foo.pdf
 ```
 
 ## cmd/dvi-dump
