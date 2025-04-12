@@ -7,10 +7,14 @@ package tex
 import (
 	"bytes"
 	"fmt"
+	"image/color"
 	"io"
 	"strings"
 
 	"modernc.org/knuth/tex"
+	"star-tex.org/x/tex/dvi"
+	"star-tex.org/x/tex/dvi/dvipdf"
+	"star-tex.org/x/tex/kpath"
 )
 
 const (
@@ -21,6 +25,48 @@ const (
 // the provided writer as a ToDVI document.
 func ToDVI(w io.Writer, r io.Reader) error {
 	return New().Process(w, r)
+}
+
+// ToPDF reads the provided TeX document from r and compiles it to
+// the provided writer as a PDF document.
+func ToPDF(ctx kpath.Context, w io.Writer, r io.Reader) error {
+	buf := new(bytes.Buffer)
+	err := ToDVI(buf, r)
+	if err != nil {
+		return fmt.Errorf("could not compile TeX document to DVI: %w", err)
+	}
+
+	log := new(bytes.Buffer)
+	pdf := dvipdf.New(
+		ctx, w,
+		dvipdf.WithBackground(color.White),
+		dvipdf.WithEmbedFonts(true),
+	)
+	vm := dvi.NewMachine(
+		dvi.WithContext(ctx),
+		dvi.WithLogOutput(log),
+		dvi.WithRenderer(pdf),
+		dvi.WithHandlers(dvi.NewColorHandler(ctx)),
+		dvi.WithOffsetX(0),
+		dvi.WithOffsetY(0),
+	)
+
+	prog, err := dvi.Compile(buf.Bytes())
+	if err != nil {
+		return fmt.Errorf("could not compile DVI program: %w", err)
+	}
+
+	err = vm.Run(prog)
+	if err != nil {
+		return fmt.Errorf("could not run DVI program: %w", err)
+	}
+
+	err = pdf.Close()
+	if err != nil {
+		return fmt.Errorf("could not render DVI program to PDF: %w", err)
+	}
+
+	return nil
 }
 
 // Engine is a TeX engine.
