@@ -96,6 +96,13 @@ func TestRenderer(t *testing.T) {
 				t.Fatalf("could not read generated PDF: %v", err)
 			}
 
+			if *cmpimg.GenerateTestData {
+				err = os.WriteFile(wantname, got, 0644)
+				if err != nil {
+					t.Fatalf("could not regenerate reference file for %q: %v", wantname, err)
+				}
+			}
+
 			want, err := os.ReadFile(wantname)
 			if err != nil {
 				t.Fatalf("could not read reference PDF: %v", err)
