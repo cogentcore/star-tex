@@ -61,10 +61,16 @@ func newLib(core, input []byte, texmf string) *xlib {
 		panic(err)
 	}
 
+	tmp, err := os.MkdirTemp("", "wtex-tmp-")
+	if err != nil {
+		panic(err)
+	}
+
 	ufs := overlayfs.From(
 		os.DirFS(cwd),
 		wrap.FS,
 		os.DirFS(texmf),
+		os.DirFS(tmp),
 	)
 
 	ktx, err := kpath.NewFromFS(overlayfs.From(ufs))
@@ -72,9 +78,16 @@ func newLib(core, input []byte, texmf string) *xlib {
 		panic(err)
 	}
 
-	//if len(wrap.Fmt) != 2500*65536 {
-	//	panic("boo")
-	//}
+	var (
+		fmtName  = "golatex"
+		texInput = input
+	)
+
+	// FIXME(sbinet): it would be great if the TeX engine was aware of io/fs.FS.
+	err = os.WriteFile(filepath.Join(tmp, fmtName+".fmt"), core, 0644)
+	if err != nil {
+		panic(err)
+	}
 
 	var mem = make([]byte, npages*65536)
 	switch len(core) {
@@ -82,15 +95,10 @@ func newLib(core, input []byte, texmf string) *xlib {
 		// ok.
 	default:
 		copy(mem, core)
-		//mem = bytes.Clone(core)
+		texInput = append([]byte("&"+fmtName+"\n"), input...)
 	}
 	if got, want := len(mem), npages*65536; got != want {
 		panic(fmt.Errorf("invalid memory size: got=%d, want=%d", got, want))
-	}
-
-	tmp, err := os.MkdirTemp("", "wtex-tmp-")
-	if err != nil {
-		panic(err)
 	}
 
 	return &xlib{
@@ -100,7 +108,7 @@ func newLib(core, input []byte, texmf string) *xlib {
 		},
 		files: []fdescr{},
 		ktx:   ktx,
-		input: input,
+		input: texInput,
 
 		stdout: &fdescr{
 			name:   "stdout",
@@ -109,7 +117,7 @@ func newLib(core, input []byte, texmf string) *xlib {
 		},
 
 		tmp: tmp,
-		fs:  os.DirFS(cwd),
+		fs:  overlayfs.From(os.DirFS(cwd), os.DirFS(tmp)),
 	}
 }
 

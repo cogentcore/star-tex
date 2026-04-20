@@ -33,25 +33,10 @@ func IniTeX(texmf string) (core []byte, err error) {
 	}
 	_, _ = os.Stdout.Write([]byte("\n"))
 
-	lib = newLib(lib.mem, []byte("\n&latex\n\\end\n"), texmf)
-	tex.m = wrap.New(lib, lib)
-	func() {
-		defer func() {
-			ee := recover()
-			switch ee := ee.(type) {
-			case error:
-				if errors.Is(ee, errInitex) {
-					err = nil
-					return
-				}
-			}
-			panic(ee)
-		}()
-		err = tex.Run()
-	}()
+	bin, err := os.ReadFile("latex.fmt")
 	if err != nil {
 		return nil, fmt.Errorf("could not create latex.fmt: %w", err)
 	}
-
-	return lib.mem, nil
+	_ = os.Remove("latex.fmt")
+	return bin, nil
 }

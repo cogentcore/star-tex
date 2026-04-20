@@ -6,6 +6,7 @@ package wtex // import "star-tex.org/x/tex/internal/wtex"
 
 import (
 	"io"
+	"os"
 
 	wrap "star-tex.org/x/tex/internal/wtex/internal/wrap"
 )
@@ -13,15 +14,19 @@ import (
 func New(input []byte, texmf string, texfmt []byte) *Engine {
 	lib := newLib(texfmt, input, texmf)
 	return &Engine{
-		m: wrap.New(lib, lib),
+		m:   wrap.New(lib, lib),
+		tmp: lib.tmp,
 	}
 }
 
 type Engine struct {
-	m *wrap.Module
+	m   *wrap.Module
+	tmp string
 }
 
 func (vm *Engine) Run() error {
+	defer os.RemoveAll(vm.tmp)
+
 	vm.m.Xmain()
 	return nil
 }
