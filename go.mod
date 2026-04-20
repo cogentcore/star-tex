@@ -19,6 +19,7 @@ require (
 )
 
 require (
+	git.sr.ht/~sbinet/overlayfs v0.1.1 // indirect
 	modernc.org/token v1.1.0 // indirect
 	rsc.io/pdf v0.1.1 // indirect
 )
