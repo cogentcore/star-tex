@@ -334,10 +334,6 @@ func (lib *xlib) Xgetfilesize(length, ptr int32) int32 {
 	return int32(sz)
 }
 
-func (lib *xlib) Xsnapshot() int32 {
-	panic("not implemented")
-}
-
 func (lib *xlib) Xinputln(fd, bypassEOLN, bufferp, firstp, lastp, maxBufStackPtr, bufsz int32) int32 {
 	var (
 		f = lib.fd(fd)
@@ -402,10 +398,6 @@ func (lib *xlib) Xinputln(fd, bypassEOLN, bufferp, firstp, lastp, maxBufStackPtr
 	}
 
 	return 1
-}
-
-func (lib *xlib) Xevaljs(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9 int32) {
-	panic("not implemented")
 }
 
 func (lib *xlib) Xrewrite(length, ptr int32) int32 {
@@ -560,4 +552,8 @@ func (lib *xlib) XgetCurrentMonth() int32 {
 func (lib *xlib) XgetCurrentYear() int32 {
 	now := lib.now()
 	return int32(now.Year())
+}
+
+func (lib *xlib) Xtex_final_end() {
+	lib.XprintNewline(-1)
 }
