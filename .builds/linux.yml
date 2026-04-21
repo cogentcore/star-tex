@@ -15,6 +15,7 @@ tasks:
      curl -L https://go.dev/dl/go1.25.0.linux-amd64.tar.gz | tar -C /home/build/sdk -xzf -
  - test_linux: |
      cd star-tex
+     go build ./...
      go test -race ./...
  - test_windows: |
      cd star-tex
