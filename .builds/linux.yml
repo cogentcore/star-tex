@@ -27,7 +27,7 @@ tasks:
  - check_lint: |
      cd star-tex
      go install honnef.co/go/tools/cmd/staticcheck@latest
-     staticcheck ./...
+     staticcheck -tags staticcheck ./...
  - check_sign_off: |
      set +x -e
      cd star-tex
