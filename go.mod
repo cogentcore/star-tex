@@ -14,6 +14,7 @@ retract (
 require (
 	codeberg.org/go-pdf/fpdf v0.11.1
 	git.sr.ht/~sbinet/cmpimg v0.1.0
+	git.sr.ht/~sbinet/overlayfs v0.1.1
 	golang.org/x/image v0.39.0
 	modernc.org/knuth v0.5.5
 )
