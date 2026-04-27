@@ -1,0 +1,15 @@
+#!/bin/bash
+# Copyright ©2026 The star-tex Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+
+set -e
+set -x
+
+node compile.js /opt/web2wasm/share/tex.p out.wasm
+#wasm-opt --asyncify --pass-arg=asyncify-ignore-indirect \
+#	--pass-arg=asyncify-imports@library.reset,library.getfilesize \
+#	-O4 out.wasm \
+#	-o /opt/web2wasm/share/tex.wasm
+/bin/cp ./out.wasm /opt/web2wasm/share/tex.wasm

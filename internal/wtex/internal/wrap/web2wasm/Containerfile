@@ -1,0 +1,29 @@
+# Copyright ©2026 The star-tex Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+from debian:13
+
+run apt update -y && apt upgrade -y
+run apt install -y \
+	nodejs npm make gcc git \
+	binaryen \
+	texlive texlive-latex-extra \
+	libkpathsea-dev
+
+run git clone \
+	--depth 2 \
+	https://github.com/drgrice1/web2js \
+	/opt/web2wasm
+
+run mkdir -p /opt/web2wasm/share
+workdir /opt/web2wasm
+
+run npm install
+
+run npm run build:parser
+
+copy ./run /opt/web2wasm/.
+run chmod +x /opt/web2wasm/run
+
+cmd ["/opt/web2wasm/run"]

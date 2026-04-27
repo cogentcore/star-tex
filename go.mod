@@ -20,7 +20,10 @@ require (
 )
 
 require (
-	git.sr.ht/~sbinet/overlayfs v0.1.1 // indirect
+	github.com/ncruces/wasm2go v0.4.0 // indirect
+	golang.org/x/tools v0.44.0 // indirect
 	modernc.org/token v1.1.0 // indirect
 	rsc.io/pdf v0.1.1 // indirect
 )
+
+tool github.com/ncruces/wasm2go
