@@ -7,14 +7,20 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
 	"os/exec"
 )
 
+var cleanup bool
+
 func main() {
 	log.SetFlags(0)
 	log.SetPrefix("wrap: ")
+
+	flag.BoolVar(&cleanup, "clean", true, "cleanup intermediate files")
+	flag.Parse()
 
 	web2pas()
 	wasmOpt()
@@ -23,6 +29,13 @@ func main() {
 }
 
 func web2pas() {
+	if cleanup {
+		defer func() {
+			_ = os.Remove("tex.web")
+			_ = os.Remove("tex.p")
+		}()
+	}
+
 	tie := exec.Command(
 		"tie", "-m", "tex.web",
 		"texlive/texk/tex.web",
@@ -83,8 +96,6 @@ func web2pas() {
 		log.Fatalf("could not run web2wasm: %v", err)
 	}
 
-	_ = os.Remove("tex.web")
-	_ = os.Remove("tex.p")
 }
 
 func wasmOpt() {
