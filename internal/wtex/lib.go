@@ -96,7 +96,7 @@ func newLib(core, input []byte, texmf string) *xlib {
 	return &xlib{
 		mem: mem,
 		now: func() time.Time {
-			return time.Now().UTC()
+			return time.Now()
 		},
 		files: []fdescr{},
 		ktx:   ktx,
