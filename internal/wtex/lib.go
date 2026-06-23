@@ -388,10 +388,10 @@ func (lib *xlib) Xinputln(fd, bypassEOLN, bufferp, firstp, lastp, maxBufStackPtr
 
 	switch {
 	case f.pos2 >= len(f.buf):
-		if f.stdin {
-			//lib.callback()
-			panic(errInitex)
-		}
+		// if f.stdin { // this causes a panic on any malformed math -- not good!
+		// 	//lib.callback()
+		// 	panic(errInitex)
+		// }
 		f.eof = true
 		return 0
 
