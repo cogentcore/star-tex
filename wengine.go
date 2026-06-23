@@ -22,6 +22,9 @@ import (
 //go:embed golatex.fmt.zip
 var latexFmt []byte
 
+// cached version of format file
+var cachedFmt []byte
+
 // LaTeXToDVI reads the provided LaTeX document from r and compiles it to
 // the provided writer as a ToDVI document.
 func LaTeXToDVI(w io.Writer, r io.Reader) error {
@@ -124,19 +127,23 @@ func (engine *LaTeXEngine) Process(w io.Writer, r io.Reader) error {
 	// 	stdlog = engine.Stdlog
 	// }
 
-	zr, err := zip.NewReader(bytes.NewReader(latexFmt), int64(len(latexFmt)))
-	if err != nil {
-		return fmt.Errorf("could not read compressed golatex.fmt: %w", err)
-	}
-	f, err := zr.Open("golatex.fmt")
-	if err != nil {
-		return fmt.Errorf("could not open embedded golatex.fmt file: %w", err)
-	}
-	defer f.Close()
+	texfmt := cachedFmt
+	if texfmt == nil {
+		zr, err := zip.NewReader(bytes.NewReader(latexFmt), int64(len(latexFmt)))
+		if err != nil {
+			return fmt.Errorf("could not read compressed golatex.fmt: %w", err)
+		}
+		f, err := zr.Open("golatex.fmt")
+		if err != nil {
+			return fmt.Errorf("could not open embedded golatex.fmt file: %w", err)
+		}
+		defer f.Close()
 
-	texfmt, err := io.ReadAll(f)
-	if err != nil {
-		return fmt.Errorf("could not read embedded golatex.fmt file: %w", err)
+		texfmt, err = io.ReadAll(f)
+		if err != nil {
+			return fmt.Errorf("could not read embedded golatex.fmt file: %w", err)
+		}
+		cachedFmt = texfmt
 	}
 
 	texmf := ""
@@ -148,7 +155,7 @@ func (engine *LaTeXEngine) Process(w io.Writer, r io.Reader) error {
 		}
 	}
 	if texmf == "" {
-		// try /usr/share/texmf-dist
+		// try /usr/local/share/texmf-dist
 		texmf = "/usr/local/share/texmf-dist"
 	}
 
