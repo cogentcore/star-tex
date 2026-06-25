@@ -11,9 +11,9 @@ import (
 	"os"
 	"strconv"
 
-	"star-tex.org/x/tex/dvi"
-	"star-tex.org/x/tex/dvi/dvimg"
-	"star-tex.org/x/tex/kpath"
+	"github.com/cogentcore/star-tex/dvi"
+	"github.com/cogentcore/star-tex/dvi/dvimg"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 var (

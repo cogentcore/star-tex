@@ -6,7 +6,7 @@
 //
 // It loosely mimicks Kpathsea, as described in:
 //   - https://texdoc.org/serve/kpathsea/0
-package kpath // import "star-tex.org/x/tex/kpath"
+package kpath // import "github.com/cogentcore/star-tex/kpath"
 
 import (
 	"fmt"
@@ -18,7 +18,7 @@ import (
 	"strings"
 	"sync"
 
-	"star-tex.org/x/tex/internal/tds"
+	"github.com/cogentcore/star-tex/internal/tds"
 )
 
 var (

@@ -13,7 +13,7 @@ import (
 	"reflect"
 	"testing"
 
-	"star-tex.org/x/tex/internal/tds"
+	"github.com/cogentcore/star-tex/internal/tds"
 )
 
 func TestProcess(t *testing.T) {

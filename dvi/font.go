@@ -5,8 +5,8 @@
 package dvi
 
 import (
-	"star-tex.org/x/tex/font/fixed"
-	"star-tex.org/x/tex/font/tfm"
+	"github.com/cogentcore/star-tex/font/fixed"
+	"github.com/cogentcore/star-tex/font/tfm"
 )
 
 // Font describes a DVI font, with TeX Font Metrics and its

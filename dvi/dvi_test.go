@@ -13,7 +13,7 @@ import (
 	"strings"
 	"testing"
 
-	"star-tex.org/x/tex/internal/iobuf"
+	"github.com/cogentcore/star-tex/internal/iobuf"
 )
 
 func TestOpCode(t *testing.T) {

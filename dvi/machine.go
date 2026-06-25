@@ -11,9 +11,9 @@ import (
 	"sort"
 	"strings"
 
-	"star-tex.org/x/tex/font/fixed"
-	"star-tex.org/x/tex/font/tfm"
-	"star-tex.org/x/tex/kpath"
+	"github.com/cogentcore/star-tex/font/fixed"
+	"github.com/cogentcore/star-tex/font/tfm"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 const (

@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"image"
 
-	"star-tex.org/x/tex/internal/iobuf"
+	"github.com/cogentcore/star-tex/internal/iobuf"
 )
 
 // Glyph represents a glyph contained in a PK font file.

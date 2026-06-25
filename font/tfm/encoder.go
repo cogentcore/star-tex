@@ -11,7 +11,7 @@ import (
 	"sort"
 	"strings"
 
-	"star-tex.org/x/tex/font/fixed"
+	"github.com/cogentcore/star-tex/font/fixed"
 )
 
 type label struct {

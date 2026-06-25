@@ -11,7 +11,7 @@ import (
 	"reflect"
 	"testing"
 
-	"star-tex.org/x/tex/kpath"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 func TestColorHandler(t *testing.T) {

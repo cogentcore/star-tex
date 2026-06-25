@@ -3,4 +3,4 @@
 // license that can be found in the LICENSE file.
 
 // Package fixed provides types to work with fixed-point numbers.
-package fixed // import "star-tex.org/x/tex/font/fixed"
+package fixed // import "github.com/cogentcore/star-tex/font/fixed"

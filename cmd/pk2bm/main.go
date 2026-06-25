@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package main // import "star-tex.org/x/tex/cmd/pk2bm"
+package main // import "github.com/cogentcore/star-tex/cmd/pk2bm"
 
 import (
 	"flag"
@@ -11,7 +11,7 @@ import (
 	"log"
 	"os"
 
-	"star-tex.org/x/tex/font/pkf"
+	"github.com/cogentcore/star-tex/font/pkf"
 )
 
 func main() {

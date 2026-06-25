@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // Package tds provides a minimal TeX Directory Structure for star-tex.
-package tds // import "star-tex.org/x/tex/internal/tds"
+package tds // import "github.com/cogentcore/star-tex/internal/tds"
 
 import "embed"
 

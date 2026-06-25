@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // Command dvi-cnv converts a DVI document into a (set of) PNG or PDF file(s).
-package main // import "star-tex.org/x/tex/cmd/dvi-cnv"
+package main // import "github.com/cogentcore/star-tex/cmd/dvi-cnv"
 
 import (
 	"flag"
@@ -13,8 +13,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"star-tex.org/x/tex/dvi"
-	"star-tex.org/x/tex/kpath"
+	"github.com/cogentcore/star-tex/dvi"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 func main() {

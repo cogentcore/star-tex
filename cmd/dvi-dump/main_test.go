@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"star-tex.org/x/tex/kpath"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 func TestInterp(t *testing.T) {

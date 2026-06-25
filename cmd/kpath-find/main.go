@@ -12,8 +12,8 @@ import (
 	"log"
 	"os"
 
-	"star-tex.org/x/tex/internal/tds"
-	"star-tex.org/x/tex/kpath"
+	"github.com/cogentcore/star-tex/internal/tds"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 func main() {

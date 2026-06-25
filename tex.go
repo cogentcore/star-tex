@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // Package tex provides tools to typeset TeX documents.
-package tex // import "star-tex.org/x/tex"
+package tex // import "github.com/cogentcore/star-tex"
 
 import "io"
 

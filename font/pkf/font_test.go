@@ -7,8 +7,8 @@ package pkf
 import (
 	"testing"
 
-	"star-tex.org/x/tex/font/fixed"
-	"star-tex.org/x/tex/kpath"
+	"github.com/cogentcore/star-tex/font/fixed"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 func TestFont(t *testing.T) {

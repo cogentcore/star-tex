@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // Package dvimg provides a DVI renderer that renders to an image.
-package dvimg // import "star-tex.org/x/tex/dvi/dvimg"
+package dvimg // import "github.com/cogentcore/star-tex/dvi/dvimg"
 
 import (
 	"fmt"
@@ -15,10 +15,10 @@ import (
 	"golang.org/x/image/font"
 	xfix "golang.org/x/image/math/fixed"
 
-	"star-tex.org/x/tex/dvi"
-	"star-tex.org/x/tex/font/fixed"
-	"star-tex.org/x/tex/font/pkf"
-	"star-tex.org/x/tex/kpath"
+	"github.com/cogentcore/star-tex/dvi"
+	"github.com/cogentcore/star-tex/font/fixed"
+	"github.com/cogentcore/star-tex/font/pkf"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 const (

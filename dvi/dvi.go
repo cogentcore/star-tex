@@ -7,7 +7,7 @@
 // More informations about the DVI standard can be found here:
 //
 //   - https://ctan.crest.fr/tex-archive/dviware/driv-standard/level-0/dvistd0.pdf
-package dvi // import "star-tex.org/x/tex/dvi"
+package dvi // import "github.com/cogentcore/star-tex/dvi"
 
 import (
 	"errors"
@@ -15,7 +15,7 @@ import (
 	"image/color"
 	"io"
 
-	"star-tex.org/x/tex/internal/iobuf"
+	"github.com/cogentcore/star-tex/internal/iobuf"
 )
 
 // Renderer defines the protocol to draw a DVI document.

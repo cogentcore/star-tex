@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // Package dvipdf prodivdes a DVI renderer that renders to a PDF document.
-package dvipdf // import "star-tex.org/x/tex/dvi/dvipdf"
+package dvipdf // import "github.com/cogentcore/star-tex/dvi/dvipdf"
 
 import (
 	"bytes"
@@ -18,10 +18,10 @@ import (
 	"sync"
 
 	pdf "codeberg.org/go-pdf/fpdf"
-	"star-tex.org/x/tex/dvi"
-	"star-tex.org/x/tex/font/afm"
-	"star-tex.org/x/tex/font/fixed"
-	"star-tex.org/x/tex/kpath"
+	"github.com/cogentcore/star-tex/dvi"
+	"github.com/cogentcore/star-tex/font/afm"
+	"github.com/cogentcore/star-tex/font/fixed"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 // codePageEncoding holds informations about the characters encoding of TrueType

@@ -10,7 +10,7 @@
 //
 //	$> tfm2pl testdata/simple.tfm
 //	$> tfm2pl testdata/simple.tfm out.pl
-package main // import "star-tex.org/x/tex/cmd/tfm2pl"
+package main // import "github.com/cogentcore/star-tex/cmd/tfm2pl"
 
 import (
 	"flag"
@@ -19,7 +19,7 @@ import (
 	"log"
 	"os"
 
-	"star-tex.org/x/tex/font/tfm"
+	"github.com/cogentcore/star-tex/font/tfm"
 )
 
 func init() {

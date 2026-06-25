@@ -3,4 +3,4 @@
 // license that can be found in the LICENSE file.
 
 // Package iobuf provides buffered I/O tailored for TeX and DVI semantics.
-package iobuf // import "star-tex.org/x/tex/internal/iobuf"
+package iobuf // import "github.com/cogentcore/star-tex/internal/iobuf"

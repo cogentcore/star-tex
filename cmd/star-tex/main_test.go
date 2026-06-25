@@ -12,7 +12,7 @@ import (
 	"testing"
 
 	"git.sr.ht/~sbinet/cmpimg"
-	"star-tex.org/x/tex/kpath"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 func TestProcess(t *testing.T) {

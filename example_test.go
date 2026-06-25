@@ -10,8 +10,8 @@ import (
 	"log"
 	"strings"
 
-	"star-tex.org/x/tex"
-	"star-tex.org/x/tex/kpath"
+	tex "github.com/cogentcore/star-tex"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 func ExampleToPDF() {

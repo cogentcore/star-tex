@@ -5,7 +5,7 @@
 package pkf
 
 import (
-	"star-tex.org/x/tex/internal/iobuf"
+	"github.com/cogentcore/star-tex/internal/iobuf"
 )
 
 // Cmd is a PK command.

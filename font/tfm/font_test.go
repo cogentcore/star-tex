@@ -11,10 +11,10 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/cogentcore/star-tex/font/fixed"
+	"github.com/cogentcore/star-tex/kpath"
 	"golang.org/x/image/font"
 	xfix "golang.org/x/image/math/fixed"
-	"star-tex.org/x/tex/font/fixed"
-	"star-tex.org/x/tex/kpath"
 )
 
 func TestFont(t *testing.T) {

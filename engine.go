@@ -11,10 +11,10 @@ import (
 	"io"
 	"strings"
 
+	"github.com/cogentcore/star-tex/dvi"
+	"github.com/cogentcore/star-tex/dvi/dvipdf"
+	"github.com/cogentcore/star-tex/kpath"
 	"modernc.org/knuth/tex"
-	"star-tex.org/x/tex/dvi"
-	"star-tex.org/x/tex/dvi/dvipdf"
-	"star-tex.org/x/tex/kpath"
 )
 
 const (

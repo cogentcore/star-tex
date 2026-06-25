@@ -14,8 +14,8 @@ import (
 	"golang.org/x/image/font"
 	xfix "golang.org/x/image/math/fixed"
 
-	"star-tex.org/x/tex/font/fixed"
-	"star-tex.org/x/tex/internal/iobuf"
+	"github.com/cogentcore/star-tex/font/fixed"
+	"github.com/cogentcore/star-tex/internal/iobuf"
 )
 
 type fontFamily string

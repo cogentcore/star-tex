@@ -10,8 +10,8 @@ import (
 	"golang.org/x/image/font"
 	"golang.org/x/image/math/fixed"
 
-	tfix "star-tex.org/x/tex/font/fixed"
-	"star-tex.org/x/tex/font/tfm"
+	tfix "github.com/cogentcore/star-tex/font/fixed"
+	"github.com/cogentcore/star-tex/font/tfm"
 )
 
 // Face implements the font.Face interface for PK fonts.

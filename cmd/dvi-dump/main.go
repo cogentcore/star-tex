@@ -4,7 +4,7 @@
 
 // Command dvi-dump displays the content of a DVI file in a human readable
 // format or JSON.
-package main // import "star-tex.org/x/tex/cmd/dvi-dump"
+package main // import "github.com/cogentcore/star-tex/cmd/dvi-dump"
 
 import (
 	"encoding/json"
@@ -14,8 +14,8 @@ import (
 	"log"
 	"os"
 
-	"star-tex.org/x/tex/dvi"
-	"star-tex.org/x/tex/kpath"
+	"github.com/cogentcore/star-tex/dvi"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 func main() {

@@ -7,7 +7,7 @@ package dvi
 import (
 	"fmt"
 
-	"star-tex.org/x/tex/internal/iobuf"
+	"github.com/cogentcore/star-tex/internal/iobuf"
 )
 
 // Cmd is a DVI command.

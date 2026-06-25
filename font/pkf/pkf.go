@@ -3,4 +3,4 @@
 // license that can be found in the LICENSE file.
 
 // Package pkf implements a decoder for the Packed (PK) Font file format.
-package pkf // import "star-tex.org/x/tex/font/pkf"
+package pkf // import "github.com/cogentcore/star-tex/font/pkf"

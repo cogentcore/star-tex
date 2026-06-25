@@ -13,7 +13,7 @@ import (
 	"strconv"
 	"strings"
 
-	"star-tex.org/x/tex/kpath"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 type colorHandler interface {

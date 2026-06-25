@@ -9,9 +9,9 @@ import (
 	"image/color"
 	"os"
 
-	"star-tex.org/x/tex/dvi"
-	"star-tex.org/x/tex/dvi/dvipdf"
-	"star-tex.org/x/tex/kpath"
+	"github.com/cogentcore/star-tex/dvi"
+	"github.com/cogentcore/star-tex/dvi/dvipdf"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 var (

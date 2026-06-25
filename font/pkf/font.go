@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"io"
 
-	"star-tex.org/x/tex/font/fixed"
-	"star-tex.org/x/tex/internal/iobuf"
+	"github.com/cogentcore/star-tex/font/fixed"
+	"github.com/cogentcore/star-tex/internal/iobuf"
 )
 
 // Units are an integral number of abstract, scalable "font units". The em

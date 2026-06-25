@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"io"
 
-	"star-tex.org/x/tex/internal/iobuf"
+	"github.com/cogentcore/star-tex/internal/iobuf"
 )
 
 var (

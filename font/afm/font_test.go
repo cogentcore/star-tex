@@ -10,8 +10,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/cogentcore/star-tex/kpath"
 	"golang.org/x/image/font"
-	"star-tex.org/x/tex/kpath"
 )
 
 func TestParseCM(t *testing.T) {

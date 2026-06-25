@@ -10,8 +10,8 @@ import (
 	"io"
 	"math"
 
+	"github.com/cogentcore/star-tex/font/fixed"
 	"golang.org/x/image/font"
-	"star-tex.org/x/tex/font/fixed"
 )
 
 type direction struct {

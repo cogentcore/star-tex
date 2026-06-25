@@ -1,7 +1,7 @@
 # star-tex
 
 [![Build status](https://builds.sr.ht/~sbinet/star-tex.svg)](https://builds.sr.ht/~sbinet/star-tex?)
-[![GoDoc](https://pkg.go.dev/badge/star-tex.org/x/tex)](https://pkg.go.dev/star-tex.org/x/tex)
+[![GoDoc](https://pkg.go.dev/badge/github.com/cogentcore/star-tex)](https://pkg.go.dev/github.com/cogentcore/star-tex)
 
 `star-tex` (or `*TeX`) is a TeX engine in Go.
 

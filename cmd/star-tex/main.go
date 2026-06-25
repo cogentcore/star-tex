@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // Command star-tex compiles TeX documents to PDFs.
-package main // import "star-tex.org/x/tex/cmd/star-tex"
+package main // import "github.com/cogentcore/star-tex/cmd/star-tex"
 
 import (
 	"errors"
@@ -15,8 +15,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"star-tex.org/x/tex"
-	"star-tex.org/x/tex/kpath"
+	tex "github.com/cogentcore/star-tex"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 var (

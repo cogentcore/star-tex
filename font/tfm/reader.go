@@ -7,8 +7,8 @@ package tfm
 import (
 	"io"
 
-	"star-tex.org/x/tex/font/fixed"
-	"star-tex.org/x/tex/internal/iobuf"
+	"github.com/cogentcore/star-tex/font/fixed"
+	"github.com/cogentcore/star-tex/internal/iobuf"
 )
 
 func newReader(r io.Reader) (*iobuf.Reader, error) {

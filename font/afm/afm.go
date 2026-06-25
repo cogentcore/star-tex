@@ -8,10 +8,10 @@
 //   - https://adobe-type-tools.github.io/font-tech-notes/pdfs/5004.AFM_Spec.pdf
 //
 // for more informations.
-package afm // import "star-tex.org/x/tex/font/afm"
+package afm // import "github.com/cogentcore/star-tex/font/afm"
 
 import (
-	"star-tex.org/x/tex/font/fixed"
+	"github.com/cogentcore/star-tex/font/fixed"
 )
 
 type trackKern struct {
