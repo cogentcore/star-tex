@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package wasm2go // import "star-tex.org/x/tex/internal/wtex/internal/wrap"
+package wasm2go // import "github.com/cogentcore/star-tex/internal/wtex/internal/wrap"
 
 import "embed"
 

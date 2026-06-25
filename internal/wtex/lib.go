@@ -18,8 +18,8 @@ import (
 	"unsafe"
 
 	"git.sr.ht/~sbinet/overlayfs"
-	wrap "star-tex.org/x/tex/internal/wtex/internal/wrap"
-	"star-tex.org/x/tex/kpath"
+	wrap "github.com/cogentcore/star-tex/internal/wtex/internal/wrap"
+	"github.com/cogentcore/star-tex/kpath"
 )
 
 type memory struct {

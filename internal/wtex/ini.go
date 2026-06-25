@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"os"
 
-	wrap "star-tex.org/x/tex/internal/wtex/internal/wrap"
+	wrap "github.com/cogentcore/star-tex/internal/wtex/internal/wrap"
 )
 
 const (

@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package wtex // import "star-tex.org/x/tex/internal/wtex"
+package wtex // import "github.com/cogentcore/star-tex/internal/wtex"
 
 import (
 	"io"
 	"os"
 
-	wrap "star-tex.org/x/tex/internal/wtex/internal/wrap"
+	wrap "github.com/cogentcore/star-tex/internal/wtex/internal/wrap"
 )
 
 func New(input []byte, texmf string, texfmt []byte) *Engine {

@@ -16,7 +16,7 @@ import (
 	"log"
 	"os"
 
-	"star-tex.org/x/tex/internal/wtex"
+	"github.com/cogentcore/star-tex/internal/wtex"
 )
 
 //go:embed golatex.fmt.zip

@@ -1,6 +1,6 @@
 module github.com/cogentcore/star-tex
 
-go 1.25.0
+go 1.25.6
 
 require (
 	codeberg.org/go-pdf/fpdf v0.11.1
